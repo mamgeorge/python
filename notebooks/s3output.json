@@ -16,8 +16,7 @@
 	},
 	"IsTruncated": False,
 	"Contents": [
-		{
-			"Key": "images/",
+		{	"Key": "images/",
 			"LastModified": datetime.datetime(2025,
 			4,
 			26,
@@ -35,8 +34,7 @@
 			"Size": 0,
 			"StorageClass": "STANDARD"
 		},
-		{
-			"Key": "images/01_Gen0617_Flood3_DelugeTablet_Utnapishtim_t.jpg",
+		{ 	"Key": "images/01_Gen0617_Flood3_DelugeTablet_Utnapishtim_t.jpg",
 			"LastModified": datetime.datetime(2025,
 			4,
 			26,
@@ -54,8 +52,7 @@
 			"Size": 3475,
 			"StorageClass": "STANDARD"
 		},
-		{
-			"Key": "images/12_2Kin1935_Herodotus_Histories_t.jpg",
+		{ 	"Key": "images/12_2Kin1935_Herodotus_Histories_t.jpg",
 			"LastModified": datetime.datetime(2025,
 			4,
 			26,
@@ -73,8 +70,7 @@
 			"Size": 3047,
 			"StorageClass": "STANDARD"
 		},
-		{
-			"Key": "images/40_Matt2806_Testimonium_Greek_t.jpg",
+		{ 	"Key": "images/40_Matt2806_Testimonium_Greek_t.jpg",
 			"LastModified": datetime.datetime(2025,
 			4,
 			26,
@@ -92,8 +88,7 @@
 			"Size": 2259,
 			"StorageClass": "STANDARD"
 		},
-		{
-			"Key": "images/coffee.jpg",
+		{ 	"Key": "images/coffee.jpg",
 			"LastModified": datetime.datetime(2025,
 			4,
 			26,
@@ -111,8 +106,7 @@
 			"Size": 110985,
 			"StorageClass": "STANDARD"
 		},
-		{
-			"Key": "index.html",
+		{ 	"Key": "index.html",
 			"LastModified": datetime.datetime(2025,
 			4,
 			28,
