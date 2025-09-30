@@ -1,15 +1,19 @@
-print(f'testers.py')
+import sample_methods
+from sample_methods import adder as adder
 
-print(f'__name__: {__name__}')
+def test_justone_1(): assert sample_methods.justone() == 'one'
 
-def test_equation0():
-	print("test_equation PASSED")
-	assert 1 + 1 == 2
+def test_adder_2(): assert adder(0, 0) == 0
+def test_adder_3(): assert adder(0, 1) == 1
+def test_adder_4(): assert adder(1, 1) == 2
+def test_adder_5(): assert adder(1, 2) == 3
 
-# def test_equation0():
-# 	print("test_equation Failed")
-# 	assert False
+def test_adder_6(): assert adder(2, 2) == 5
 
-def add(a, b):
-    return a + b
+def test_adder_7():
+	try:
+		assert adder(2, 2) == 5
+	except AssertionError as ex:
+		print(f'ERROR: {ex}')
 
+def test_adder_8(): assert adder(2, 2) == 4
