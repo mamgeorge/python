@@ -21,6 +21,7 @@
 			<div class = "collapse navbar-collapse" id = "mynavbar">
 
 				<ul class = "navbar-nav me-auto">
+					<li class = "nav-item"><a class = "nav-link" href = "/"	>root</a></li> |
 					<li class = "nav-item"><a class = "nav-link" href = "/user/Martin"	>user</a></li> |
 					<li class = "nav-item"><a class = "nav-link" href = "/post/343"		>post</a></li> |
 					<li class = "nav-item"><a class = "nav-link" href = "/path/{pith}"	>path</a></li>
@@ -35,12 +36,15 @@
 
 
 <h3>Hello, World!</h3>
-[{{timestamp}}]<br /><br />
+	time: {{timestamp}} <br />
+	url: {{link}}<br />
+	<br /><br />
 
 <div style = "margin: auto; text-align: left; width: 20%;" >
-<li /><a href = "/user/Martin"	>/user/{name}</a>
-<li /><a href = "/post/343"		>/post/{id}</a>
-<li /><a href = "/path/pith"	>/path/{path}</a>
+	<li /><a href = "/"	>/root</a>
+	<li /><a href = "/user/Martin"	>/user/{name}</a>
+	<li /><a href = "/post/343"		>/post/{id}</a>
+	<li/><a href = "/path/pith"		>/path/{path}</a>
 </div>
 
 	<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-bottom">

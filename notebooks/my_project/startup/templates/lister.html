@@ -4,9 +4,9 @@
 
 {% block content %}
 
-<h3>Listing</h3>
+<h3>Listing: {{startups.count}}</h3>
 
-	<div class="d-flex justify-content-center">
+	<div class="d-flex justify-content-center" style = "height: 400px; overflow: auto;">
 	<table class="table w-50 table-hover table-striped" >
 	{% for xval in startups %}
 	<tr><td>{{ forloop.counter }}</td>
