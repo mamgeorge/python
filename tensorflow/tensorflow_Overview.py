@@ -1,0 +1,109 @@
+# workspace/training/ml/tensorflow_Overview.py
+
+''' PROCESS (Acquire, Inspect, Create, Preprocess) / BUILD (Build, Compile, Fit) / EVALUATE (Evaluate & Save)
+
+	PROCESS		Acquire, Inspect, Create, Preprocess
+	BUILD		Build, Compile, Fit (Train)
+	EVALUATE	Evaluate & Save Model
+'''
+
+# Define
+def PROC_ACQUIRE():	# "kaggle", open, append, DataFrame
+
+	import csv
+	fileCSV = open('sample_data/flight_dataset.csv')
+	csv_reader = csv.DictReader(fileCSV)
+	csv_reader.fieldnames
+
+	flight_data = []
+	for row in csv_reader:
+	flight_data.append(row)
+
+	import pandas as pd
+	dataFrame = pd.DataFrame(flight_data)
+	dataFrame.head()
+
+def PROC_INSPECT():	# randint, hist
+
+	import random
+	#random.seed(42)
+	random.seed()
+	randomIdx = random.randint(0, len(dataFrame) - 1)
+	dataFrame.iloc[randomIdx]
+
+	dataFrame["Year"].hist()
+
+def PROC_CREATE():	# train_test_split, drop
+
+	train_test_split = int(len(dataFrame) * 0.8)
+	print("train_test_split: ", train_test_split)
+	X_train, y_train = dataFrame.drop('Price', axis=1)[:train_test_split], dataFrame['Price'][:train_test_split]
+	X_tests, y_tests = dataFrame.drop('Price', axis=1)[train_test_split:], dataFrame['Price'][train_test_split:]
+	len(X_train), len(y_train), len(X_tests), len(y_tests)
+
+def	PROC_PREPROCESS(): # colTransform, fit, transform
+
+	from sklearn.compose import make_column_transformer
+	from sklearn.preprocessing import MinMaxScaler, OneHotEncoder
+
+	colTransform = make_column_transformer(
+        (MinMaxScaler(),["Total_Stops", "Date", "Month", "Year", "Dep_hours", "Dep_min", "Arrival_hours", "Arrival_min", "Duration_hours", "Duration_min"]),
+        (OneHotEncoder(handle_unknown="ignore"), ["Destination", "Source", "Airline"])
+	)
+	colTransform.fit(X_train)
+	X_train_normal = colTransform.transform(X_train)
+	X_tests_normal = colTransform.transform(X_tests)
+	# X_train_normal[0], X_tests_normal[0]
+	print( X_train_normal[0], X_tests_normal[0] )
+
+	# some other views...
+	print( X_train_normal.shape, X_tests_normal.shape )
+	print( X_train.shape, X_tests.shape )
+	print( [0., 0.88461538, 0., 0., 0.95652174, 0.36363636, 0.04347826, 0.18181818, 0.02173913, 0.90909091, 0., 0., 0., 0., 0., 1., 1., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0.] )
+
+def BUILD():		# Build, Compile, Fit (Train)
+
+	import numpy as np
+	import tensorflow as tf
+	# tf is framework for building ml algorithm
+	# y_train was made from the Splits as str, need to convert
+	y_train = np.array(y_train, dtype=np.float32)
+	tf.random.set_seed(42)
+	# keras is tf ml part, Sequential (uses hidden layers in seq) or Functional
+	# dense layer is a layer where all nodes are connected to every other node
+	model = tf.keras.Sequential([
+		tf.keras.layers.Dense(33),	# based on total count of normal.shape items
+		tf.keras.layers.Dense(100),	# arbitrary
+		tf.keras.layers.Dense(100),	# arbitrary
+		tf.keras.layers.Dense(1) # concludes with 1 in this case
+	], name="flight_price_model")
+
+	# losses: loss function quantifies difference between a models predicted outputs & actual target values
+	# mae: "Mean Absolute Error" quantifies average absolute difference between predicted values & actual target values
+	# optimizers: specialized algorithm to dynamically refine weights & biases from feedback of data, aiming to converge upon optimal model parameters
+	model.compile(loss=tf.keras.losses.mae,
+		optimizer=tf.keras.optimizers.Adam(),
+		metrics=["mae"])
+
+	# X_train_normal:	preprocessed data that has been onehot encoded and MinMaxScaled
+	# y_train:	prices of each flight that we are using to train the model on
+	# One epoch = one complete pass through the entire training datase
+	model_history = model.fit(X_train_normal, y_train, epochs=100)
+
+def EVALUTE():		# Evaluate & Save Model
+
+	y_tests = np.array(y_tests, dtype=np.float32)
+	model.evaluate(X_tests_normal, y_tests)
+
+	model.save("sample_data/saved_model_flight_prices.keras")
+	loaded_model = tf.keras.models.load_model("sample_data/saved_model_flight_prices.keras")
+	loaded_model.layers
+	loaded_model.summary()
+
+# Execute!
+PROC_ACQUIRE()
+PROC_INSPECT()
+PROC_CREATE()
+PROC_PREPROCESS()
+BUILD()
+EVALUTE()

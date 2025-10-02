@@ -1,0 +1,23 @@
+{% extends "master.html" %}
+
+{% block title %} Testing! {% endblock %}
+
+{% block content %}
+
+{% with val="DateTime: " %}
+<h3>Letters</h3>
+<b>{{val}} {{timestamp}}</b>{% endwith %}
+
+<br />
+<div class="d-flex justify-content-center">
+<table class="table w-50 table-sm table-hover table-striped" >
+{% for x in letters %}
+<tr><td>{{ forloop.counter }}</td><td>{{ x }}</td></tr>
+{% endfor %}
+</table>
+</div>
+
+<p>startups: {{ startups.count }}</p>
+<p>In views.py you can see what the letters variable looks like.</p>
+
+{% endblock %}

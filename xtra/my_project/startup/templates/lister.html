@@ -1,0 +1,19 @@
+{% extends "master.html" %}
+
+{% block title %}Listing of all members{% endblock %}
+
+{% block content %}
+
+<h3>Listing: {{startups.count}}</h3>
+
+	<div class="d-flex justify-content-center" style = "height: 400px; overflow: auto;">
+	<table class="table w-50 table-hover table-striped" >
+	{% for xval in startups %}
+	<tr><td>{{ forloop.counter }}</td>
+		<td><a href="details/{{ xval.id }}">{{ xval.firstname }} {{ xval.lastname }}</a></td>
+	</tr>
+	{% endfor%}
+	</table>
+	</div>
+
+{% endblock %}

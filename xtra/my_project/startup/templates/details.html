@@ -1,0 +1,17 @@
+{% extends "master.html" %}
+
+{% block title %} Details: {{ startups.firstname }} {% endblock %}
+
+{% block content %}
+
+<h3>Details</h3>
+
+	<div class="d-flex justify-content-center">
+	<table class="table w-50 table-sm table-hover table-striped" >
+	<tr><th colspan = "2"><h3>{{ startups.firstname }} {{ startups.lastname }}</h3></th></tr>
+	<tr><td>Phone:			</td><td> {{ startups.phone }}			</td></tr>
+	<tr><td>Member since:	</td><td> {{ startups.joined_date }}	</td></tr>
+	</table>
+	</div>
+
+{% endblock %}
