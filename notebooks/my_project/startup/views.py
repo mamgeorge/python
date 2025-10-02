@@ -26,7 +26,6 @@ def details(request, id):
 	return HttpResponse(template.render(context, request))
 
 def testing(request):
-
 	template = loader.get_template('template.html')
 	startups = Member.objects.all().order_by('lastname', 'firstname').values()
 	host = request.get_host()

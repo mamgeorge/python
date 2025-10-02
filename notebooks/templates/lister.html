@@ -1,0 +1,22 @@
+{% extends "master.html" %}
+
+{% block title %} Lister {% endblock %}
+
+{% block content %}
+
+<h3>Lister!</h3>
+{{value}}
+<br />{{ data | length }} entries
+
+<div class="d-flex justify-content-center" style = "height: 400px; overflow: auto;">
+<table class="table w-50 table-hover table-striped" >
+{% for row in data %}
+<td><td>{{ loop.index0 + 1 }}</td>
+	<td><a href = "/details/{{ row.firstname }}">{{ row.firstname }} {{ row.lastname }}</a></td>
+	<td>{{ row.phone }}</td>
+	<td>{{ row.joined_date }}</td>
+	</tr>
+{% endfor %}
+</table></div>
+
+{% endblock %}
