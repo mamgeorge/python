@@ -2,14 +2,22 @@
 // update node
 // python.exe -m pip install --upgrade pip
 // npm install openai (not pip)
-// node example.mjs
+// node example.mjs (module js, or ESM: ECMAScript module system)
 
-import OpenAI from "openai";
-const client = new OpenAI();
+import OpenAI from 'openai'
+const openaiClient = new OpenAI()
 
-const response = await client.responses.create({
-  model: "gpt-5",
-  input: "Write a one sentence story about Batman.",
-});
+const modelVal = 'gpt-5'
+const inputVal = [
+	'Explain oxidase in simple terms.',
+	'Describe the purpose of each complex in the Electron Transport Chain.',
+	'Write a 4 sentence description of the Electron Transport Chain.',
+	'Write a one sentence story about Batman.'
+]
 
-console.log(response.output_text);
+const response = await openaiClient.responses.create({
+  model: modelVal,
+  input: inputVal[0],
+})
+
+console.log(response.output_text)
