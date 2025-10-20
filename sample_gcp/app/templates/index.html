@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html><head><title>Image Classification</title>
-    
+<style>body{ text-align: center; margin: auto; font-family:verdana; }</style>
 </head>
 <body>
     <h1>Image Classification</h1>
+    <h3>{{timestamp}}</h3>
     <form method="POST" enctype="multipart/form-data" action="/predict">
         <input type="file" name="image">
         <input type="submit" value="Predict">
