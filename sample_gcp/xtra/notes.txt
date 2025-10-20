@@ -1,0 +1,30 @@
+Conda is an opensource package and environment management system.
+	It installs, runs, updates packages across multiple OS.
+	It creates isolated "environments" different projects.
+	This preventing conflicts between package versions.
+
+create env: 
+	> conda create -n my_app python=3.13.5
+
+	(my_app) C:\workspace\github\python\sample_gcp>
+
+activate env:
+	> conda activate my_app
+	
+goto VSCode > Command Palette > Python: Select Interpreter > select my_app
+
+	pip install -r requirements.txt (many of these failed)
+	pip show numpy
+
+	flask==3.1.0		3.1.2
+	gunicorn			23.0.0
+	numpy==1.26.4		2.3.4
+	pillow==11.0.0		12.0.0
+	tensorflow==2.17.1	2.20.0
+
+update settings.json @id:terminal.integrated.env.windows (CTRL ,) 
+	
+	"TF_ENABLE_ONEDNN_OPTS": "0"
+    
+	printenv | sort
+	
