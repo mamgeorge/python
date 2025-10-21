@@ -23,8 +23,9 @@ goto VSCode > Command Palette > Python: Select Interpreter > select my_app
 	tensorflow==2.17.1	2.20.0
 
 update settings.json @id:terminal.integrated.env.windows (CTRL ,) 
+
+mamgeorge@cloudshell:~ (gcpflaskapp-475723)$ 
 	
 	"TF_ENABLE_ONEDNN_OPTS": "0"
     
 	printenv | sort
-	
