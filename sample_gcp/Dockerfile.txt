@@ -1,8 +1,10 @@
+# C:/workspace/github/python/sample_gcp/Dockerfile.txt
+
 FROM python:3.11.10-slim
 
-WORKDIR /my-app
+WORKDIR /gcpFlaskApp
 
-COPY . /my-app
+COPY . /gcpFlaskApp
 
 RUN apt-get update
 RUN apt-get install ffmpeg libsm6 libxext6 --yes

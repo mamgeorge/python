@@ -1,0 +1,9 @@
+{
+	"store": {
+
+		"book": [
+			{"title": "Go in Action",		"price": 29.99},
+			{"title": "Concurrency in Go",	"price": 35.00}
+		]
+	}
+}
