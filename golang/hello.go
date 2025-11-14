@@ -1,10 +1,12 @@
 /* cd training\spring | go run hello.go
 
-	cd training\spring go
-	run hello.go
+	cd training\spring
+	go run hello.go
 
+	# setup
 	go mod init mlgmod
 
+	# stored in "C:\workspace\github\python\golang"
 	go get github.com/PaesslerAG/jsonpath@latest
 	go get github.com/ohler55/ojg/jp@latest
 	go get github.com/ohler55/ojg/oj@latest
@@ -63,20 +65,23 @@ import (
 
 func main() {
 
-	varsys(10)
+	webServer( )
 
 	if (false) {
 
 		varops()
 		varsys(100)
 		ifcond(10)
+		fmt.Println(jsonPath("tmp_user.json"))
+
 		fmt.Println(EOL + "recurs"); fmt.Print(TAB); recurs(1)
 		fmt.Println(EOL + "factor"); fmt.Print(TAB); fmt.Println(factor(9))
 		mapper()
 		fmt.Println(EOL + "struct"); var pers Person; pers.name = "Martin"; fmt.Println(TAB, pers)
-
 		fmt.Println(fileIo("tmp_user.json"))
-		fmt.Println(jsonPath("tmp_user.json"))
+
+		webServer()
+		webCaller()
 
 		dbPostgreSQL()	// WORKS!
 		dbOracle()		// NOPE
@@ -85,14 +90,12 @@ func main() {
 		dbMongoDB()		// WORKS!
 		dbAWS_S3()		// NOPE
 		dbAWS_RDS()		// WORKS!
-
-		webServer()
-		webCaller()
 	}
 
 	fmt.Println(EOL + "DONE!")
 }
 
+// database
 func dbAWS_RDS() {
 
 	fmt.Println(EOL + "dbAWS_RDS")
@@ -377,6 +380,7 @@ func dbPostgreSQL() {
 	}
 }
 
+// webService
 func webCaller() {
 
 	fmt.Println(EOL + "webCaller")
@@ -402,66 +406,56 @@ func webServer() {
 	var port string  = ":8080"
 	fmt.Println(EOL + "webServer");
 
-	http.HandleFunc("/", webHandler) // Register the handler for the root path
+	http.HandleFunc("/", webHandlerRoot) // Register the handler for the root path
+
+	http.HandleFunc("/xtra", webHandlerXtra) // Register the handler for the root path
+
 	log.Printf("Server on port: %v" + EOL, port)
 	log.Fatal( http.ListenAndServe(port, nil) )
 }
 
-func webHandler(rsp http.ResponseWriter, req *http.Request) {
+func webHandlerRoot(rsp http.ResponseWriter, req *http.Request) {
 
 	var now time.Time = time.Now().UTC()
 	var iso string = now.Format(time.RFC3339)
 
 	// <link rel = "icon" type = "image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">
 	var txt string = `
-		<style>body { color: green; font-family: verdana; margin: auto; text-align: center; }</style>
+		<style>body { color: green; font-family: verdana; margin: auto; text-align: center; }
+			a { text-decoration: none; }</style>
 		<br />%v
 		<br />%v
-		<br /><h3>Hello World from Go!</h3>`
+		<br /><h3>Hello World from Go!</h3>
+		<br /><a href = "/">home</a>
+		<br /><a href = "/xtra">xtra</a>
+		`
 
 	log.Printf(TAB + "datetime: %v" + EOL, iso)
 	fmt.Fprintf(rsp, txt, now, iso)
 }
 
-func jsonPath(filePath string) string {
+func webHandlerXtra(rsp http.ResponseWriter, req *http.Request) {
 
-	fmt.Println(EOL + "jsonPath");
+	var now time.Time = time.Now().UTC()
+	var iso string = now.Format(time.RFC3339)
 
-	// load file
+	// <link rel = "icon" type = "image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">
+	var txt string = `
+		<style>body { color: cyan; font-family: verdana; margin: auto; text-align: center; }
+			a { text-decoration: none; }</style>
+		<br />%v
+		<br />%v
+		<br /><h3>This is something else!</h3>
+		<br /><a href = "/">home</a>
+		<br /><a href = "/xtra">xtra</a>
 
-		var jsonFile []uint8
-		var errFile error
-		jsonFile, errFile = os.ReadFile(filePath)
-		if errFile != nil { fmt.Printf("ERROR: %v\n", errFile) }
+		`
 
-	var query string = "$.company.name"
-
-	// one way
-
-		var jIfc map[string]interface{}
-		errFile = json.Unmarshal(jsonFile, &jIfc)
-		if errFile != nil { fmt.Printf("ERROR: %v\n", errFile) }
-
-		var resultIfc interface {}
-		var errJson error
-		resultIfc, errJson = jsonpath.Get(query, jIfc )
-		if errJson != nil { fmt.Printf("ERROR: %v\n", errJson) }
-		fmt.Printf("resultIfc: %v\n", resultIfc);
-
-	// another
-
-		jobj, errFile := oj.ParseString( string(jsonFile) )
-		if errFile != nil { fmt.Printf("ERROR: %v\n", errFile) }
-
-		jpth, errJson := jp.ParseString(query)
-		if errJson != nil { fmt.Printf("ERROR: %v\n", errJson) }
-
-		resultXpt := jpth.Get(jobj)[0]
-		fmt.Printf("resultXpt: %v\n", resultXpt);
-
-	return resultIfc.(string)
+	log.Printf(TAB + "datetime: %v" + EOL, iso)
+	fmt.Fprintf(rsp, txt, now, iso)
 }
 
+// fileIO, structures,
 func fileIo(filePath string) string {
 
 	var content []uint8
@@ -501,6 +495,46 @@ func recurs(x int) int {
 
 	fmt.Print(x, " ")
 	return recurs(x + 1)
+}
+
+// web JSON, string
+func jsonPath(filePath string) string {
+
+	fmt.Println(EOL + "jsonPath");
+
+	// load file
+
+		var jsonFile []uint8
+		var errFile error
+		jsonFile, errFile = os.ReadFile(filePath)
+		if errFile != nil { fmt.Printf("ERROR: %v\n", errFile) }
+
+	var query string = "$.company.name"
+
+	// one way
+
+		var jIfc map[string]interface{}
+		errFile = json.Unmarshal(jsonFile, &jIfc)
+		if errFile != nil { fmt.Printf("ERROR: %v\n", errFile) }
+
+		var resultIfc interface {}
+		var errJson error
+		resultIfc, errJson = jsonpath.Get(query, jIfc )
+		if errJson != nil { fmt.Printf("ERROR: %v\n", errJson) }
+		fmt.Printf("resultIfc: %v\n", resultIfc);
+
+	// another
+
+		jobj, errFile := oj.ParseString( string(jsonFile) )
+		if errFile != nil { fmt.Printf("ERROR: %v\n", errFile) }
+
+		jpth, errJson := jp.ParseString(query)
+		if errJson != nil { fmt.Printf("ERROR: %v\n", errJson) }
+
+		resultXpt := jpth.Get(jobj)[0]
+		fmt.Printf("resultXpt: %v\n", resultXpt);
+
+	return resultIfc.(string)
 }
 
 func ifcond(time int) {
